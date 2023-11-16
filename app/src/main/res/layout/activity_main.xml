@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tw_meeting_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/meeting_info"
+        android:layout_margin="8dp"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_meetingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_meetingTitle"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tw_meeting_info"/>
+
+    <EditText
+        android:id="@+id/editText_meetingLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_meetingLocation"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editText_meetingTitle" />
+
+    <EditText
+        android:id="@+id/editText_meetingParticipants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_meetingParticipants"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editText_meetingLocation" />
+
+    <EditText
+        android:id="@+id/editText_meetingDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_meetingDateTime"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editText_meetingParticipants"
+        android:inputType="datetime"/>
+
+    <Button
+        android:id="@+id/button_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_summary"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/android_green"
+        app:layout_constraintTop_toBottomOf="@id/editText_meetingDateTime"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/button_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_search"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/android_green"
+        app:layout_constraintTop_toBottomOf="@id/button_summary"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/button_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_update"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/android_green"
+        app:layout_constraintTop_toBottomOf="@id/button_search"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/button_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_submit"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/android_green"
+        app:layout_constraintTop_toBottomOf="@id/button_update"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

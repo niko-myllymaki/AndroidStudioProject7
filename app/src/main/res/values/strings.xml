@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Assignment7</string>
+    <string name="hint_meetingTitle">Meeting Title</string>
+    <string name="meeting_info">Meeting Information</string>
+    <string name="hint_meetingDateTime">Date</string>
+    <string name="button_submit">Submit</string>
+    <string name="button_summary">Summary</string>
+    <string name="button_search">Search</string>
+    <string name="button_update">Update</string>
+    <string name="meeting_summary">Summary</string>
+    <string name="hint_meetingLocation">Location</string>
+    <string name="hint_meetingParticipants">Participant</string>
+</resources>
