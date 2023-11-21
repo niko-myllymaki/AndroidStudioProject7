@@ -62,17 +62,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //This method starts the activity.
-    private void startLoginActivity() {
-        //Bundle bundle = new Bundle();
+    private void startLoginActivity(Meeting meeting) {
+        Bundle bundle = new Bundle();
         // passing the data into the bundle
-        // bundle.putString("key1", "Passing Bundle From Main Activity to 2nd Activity");
+        //Meeting meeting = new Meeting("testTitle", "testLocal", "testNames", MeetingDB.getCurrentDateTime().toString());
+        bundle.putString("key1", meeting.toString());
+
         //Here we define intent to start LoginActivity and pass some data to it.
         //Date date = new Date();
         //Log.d("DATE", new Date().toString());
         Intent intent = new Intent(this, SummaryActivity.class);
-        intent.putExtra("data", meetingTitleEditText.getText().toString());
-        //intent.putExtras(bundle);
-
+        //intent.putExtra("data", meetingTitleEditText.getText().toString());
+        intent.putExtras(bundle);
 
         //Here we launch the activity, which will start LoginActivity and
         //expect results from it.
@@ -82,10 +83,13 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener ButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
             Button clickedButton = (Button) v;
+            Meeting meeting = null;
 
             //Submit button event
             if (clickedButton.equals(summaryButton)) {
+
                 title = "";
                 location = "";
                 participants = "";
@@ -117,8 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 */
                 if (!title.isEmpty() && !location.isEmpty() && !participants.isEmpty()) {
-                    MeetingDB.addNewMeetingToDatabase(title, location, participants);
-                    Log.d("MEETING", "Main " + MeetingDB.getMeetingsList().toString());
+                    //MeetingDB.addNewMeetingToDatabase(title, location, participants);
+                    meeting = new Meeting(title,location, participants, MeetingDB.getCurrentDateTime());
+                    //Log.d("MEETING", "Main " + MeetingDB.getMeetingsList().toString());
 
                     meetingTitleEditText.setText("");
                     meetingLocationEditText.setText("");
@@ -126,9 +131,11 @@ public class MainActivity extends AppCompatActivity {
                     meetingDateTimeEditText.setText("");
                 }
 
-                startLoginActivity();
+                startLoginActivity(meeting);
 
             }
+
+
         }
     };
 

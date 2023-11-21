@@ -10,4 +10,5 @@
     <string name="meeting_summary">Summary</string>
     <string name="hint_meetingLocation">Location</string>
     <string name="hint_meetingParticipants">Participant</string>
+    <string name="button_back">Back</string>
 </resources>
