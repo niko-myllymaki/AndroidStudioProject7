@@ -28,7 +28,7 @@ public class SummaryActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        data = bundle.getString("key1", "Default");
+        data = bundle.getString("meetingsList", "Default");
 
         summaryInfo = findViewById(R.id.tw_summary_info);
         summaryInfo.setText(data);
@@ -53,6 +53,8 @@ public class SummaryActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
+            setResult(RESULT_OK);
+            finish();
 
         }
 

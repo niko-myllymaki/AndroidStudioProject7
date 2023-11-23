@@ -7,8 +7,8 @@
     <string name="button_summary">Summary</string>
     <string name="button_search">Search</string>
     <string name="button_update">Update</string>
-    <string name="meeting_summary">Summary</string>
+    <string name="meeting_summaryTitle">Summary Page</string>
     <string name="hint_meetingLocation">Location</string>
     <string name="hint_meetingParticipants">Participant</string>
-    <string name="button_back">Back</string>
+    <string name="button_inputMeeting">Add Meeting</string>
 </resources>

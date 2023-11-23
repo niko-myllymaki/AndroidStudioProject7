@@ -10,18 +10,22 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText meetingTitleEditText, meetingLocationEditText, meetingParticipantsEditText, meetingDateTimeEditText;
 
-    Button summaryButton;
+    Button submitButton, summaryButton;
 
     String title, location, participants, dateTime;
 
@@ -38,8 +42,16 @@ public class MainActivity extends AppCompatActivity {
         meetingParticipantsEditText = findViewById(R.id.editText_meetingParticipants);
         meetingDateTimeEditText = findViewById(R.id.editText_meetingDateTime);
 
+        submitButton = findViewById(R.id.button_submit);
+        submitButton.setOnClickListener(ButtonClickListener);
+
         summaryButton = findViewById(R.id.button_summary);
         summaryButton.setOnClickListener(ButtonClickListener);
+
+        meetingTitleEditText.setOnKeyListener(KeyListener);
+        meetingLocationEditText.setOnKeyListener(KeyListener);
+        meetingParticipantsEditText.setOnKeyListener(KeyListener);
+
 
         //Here we define ActivityResultLauncher using registerForActivityResult() method.
         //We will use activityResultLauncher to launch the intent and handle data returned
@@ -48,12 +60,11 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
 
-
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         //This method processes data sent back from the activity
                         if (result.getResultCode() == RESULT_OK) {
-                            //Toast.makeText(this, "message", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Returned from Summary!", Toast.LENGTH_LONG).show();
                             //usernameTextView.setVisibility(View.VISIBLE);
                             //usernameTextView.setText(result.getData().getStringExtra("user_name") + " " + result.getData().getStringExtra("current_time"));
                         }
@@ -62,11 +73,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //This method starts the activity.
-    private void startLoginActivity(Meeting meeting) {
+    private void startLoginActivity() {
         Bundle bundle = new Bundle();
+        StringBuilder stringBuilder = new StringBuilder();
         // passing the data into the bundle
         //Meeting meeting = new Meeting("testTitle", "testLocal", "testNames", MeetingDB.getCurrentDateTime().toString());
-        bundle.putString("key1", meeting.toString());
+        List<Meeting>  listOfMeetings = MeetingDB.getMeetingsList();
+        for(Meeting meeting : MeetingDB.getMeetingsList()) {
+            stringBuilder.append(meeting).append("\n");
+        }
+        bundle.putString("meetingsList", stringBuilder.toString());
 
         //Here we define intent to start LoginActivity and pass some data to it.
         //Date date = new Date();
@@ -87,8 +103,13 @@ public class MainActivity extends AppCompatActivity {
             Button clickedButton = (Button) v;
             Meeting meeting = null;
 
+            //Summary button event
+            if(clickedButton.equals(summaryButton)) {
+                startLoginActivity();
+            }
+
             //Submit button event
-            if (clickedButton.equals(summaryButton)) {
+            if (clickedButton.equals(submitButton)) {
 
                 title = "";
                 location = "";
@@ -121,22 +142,45 @@ public class MainActivity extends AppCompatActivity {
                 }
 */
                 if (!title.isEmpty() && !location.isEmpty() && !participants.isEmpty()) {
-                    //MeetingDB.addNewMeetingToDatabase(title, location, participants);
-                    meeting = new Meeting(title,location, participants, MeetingDB.getCurrentDateTime());
+                    MeetingDB.addNewMeetingToDatabase(title, location, participants);
+                    //meeting = new Meeting(title,location, participants, MeetingDB.getCurrentDateTime());
                     //Log.d("MEETING", "Main " + MeetingDB.getMeetingsList().toString());
 
                     meetingTitleEditText.setText("");
                     meetingLocationEditText.setText("");
                     meetingParticipantsEditText.setText("");
                     meetingDateTimeEditText.setText("");
+
                 }
-
-                startLoginActivity(meeting);
-
             }
-
 
         }
     };
+
+    private View.OnKeyListener KeyListener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            EditText inputField = (EditText) v;
+            if(inputField.equals(meetingTitleEditText)) {
+                meetingTitleEditText.setBackgroundColor(0);
+            }
+
+            if(inputField.equals(meetingLocationEditText)) {
+                meetingLocationEditText.setBackgroundColor(0);
+            }
+
+            if(inputField.equals(meetingParticipantsEditText)) {
+                meetingParticipantsEditText.setBackgroundColor(0);
+            }
+
+            //Toast.makeText(MainActivity.this, inputField.getResources().getResourceEntryName(inputField.getId()), Toast.LENGTH_LONG).show();
+
+
+            return false;
+        }
+
+
+    };
+
 
 }
