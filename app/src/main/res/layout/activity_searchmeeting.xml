@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tw_search_meeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_meeting_title"
+        android:layout_margin="8dp"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/auto_complete_tw_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tw_search_meeting"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="15dp"
+        android:hint="@string/hint_autoComplete_date"
+        android:padding="15dp"
+        android:inputType="date"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/auto_complete_tw_time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/auto_complete_tw_date"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="15dp"
+        android:hint="@string/hint_autoComplete_time"
+        android:padding="15dp"
+        android:inputType="time"/>
+
+
+    <AutoCompleteTextView
+        android:id="@+id/auto_complete_tw_participants"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/auto_complete_tw_time"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="15dp"
+        android:hint="@string/hint_autoComplete_participants"
+        android:padding="15dp"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/tw_search_result_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tw_search_result_txt"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/auto_complete_tw_participants" />
+
+    <TextView
+        android:id="@+id/tw_search_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tw_search_result_title" />
+
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_back"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/android_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

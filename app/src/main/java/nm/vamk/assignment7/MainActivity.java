@@ -1,33 +1,26 @@
 package nm.vamk.assignment7;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText meetingTitleEditText, meetingLocationEditText, meetingParticipantsEditText, meetingDateTimeEditText;
+    TextView summaryInfo;
 
-    Button submitButton, summaryButton;
-
-    String title, location, participants, dateTime;
+    Button backButton;
 
     //Here we declare ActivityResultLauncher
     ActivityResultLauncher<Intent> activityResultLauncher ;
@@ -37,20 +30,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        meetingTitleEditText = findViewById(R.id.editText_meetingTitle);
-        meetingLocationEditText = findViewById(R.id.editText_meetingLocation);
-        meetingParticipantsEditText = findViewById(R.id.editText_meetingParticipants);
-        meetingDateTimeEditText = findViewById(R.id.editText_meetingDateTime);
+        backButton = findViewById(R.id.button_add_meeting);
+        backButton.setOnClickListener(ButtonClickListener);
 
-        submitButton = findViewById(R.id.button_submit);
-        submitButton.setOnClickListener(ButtonClickListener);
+        //Log.d("MEETING", "Summary " + MeetingDB.getMeetingsList().toString());
 
-        summaryButton = findViewById(R.id.button_summary);
-        summaryButton.setOnClickListener(ButtonClickListener);
 
-        meetingTitleEditText.setOnKeyListener(KeyListener);
-        meetingLocationEditText.setOnKeyListener(KeyListener);
-        meetingParticipantsEditText.setOnKeyListener(KeyListener);
+        summaryInfo = findViewById(R.id.tw_summary_info);
+        //summaryInfo.setText(data);
 
 
         //Here we define ActivityResultLauncher using registerForActivityResult() method.
@@ -64,9 +51,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         //This method processes data sent back from the activity
                         if (result.getResultCode() == RESULT_OK) {
-                            Toast.makeText(MainActivity.this, "Returned from Summary!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Returned from AddMeetingActivity!", Toast.LENGTH_LONG).show();
                             //usernameTextView.setVisibility(View.VISIBLE);
                             //usernameTextView.setText(result.getData().getStringExtra("user_name") + " " + result.getData().getStringExtra("current_time"));
+                            summaryInfo.setText(result.getData().getStringExtra("meeting_data"));
+
                         }
                     }
                 });
@@ -75,21 +64,22 @@ public class MainActivity extends AppCompatActivity {
     //This method starts the activity.
     private void startLoginActivity() {
         Bundle bundle = new Bundle();
-        StringBuilder stringBuilder = new StringBuilder();
+        //StringBuilder stringBuilder = new StringBuilder();
         // passing the data into the bundle
         //Meeting meeting = new Meeting("testTitle", "testLocal", "testNames", MeetingDB.getCurrentDateTime().toString());
-        List<Meeting>  listOfMeetings = MeetingDB.getMeetingsList();
+        /*
+        List<Meeting> listOfMeetings = MeetingDB.getMeetingsList();
         for(Meeting meeting : MeetingDB.getMeetingsList()) {
             stringBuilder.append(meeting).append("\n");
         }
         bundle.putString("meetingsList", stringBuilder.toString());
-
+*/
         //Here we define intent to start LoginActivity and pass some data to it.
         //Date date = new Date();
         //Log.d("DATE", new Date().toString());
-        Intent intent = new Intent(this, SummaryActivity.class);
-        //intent.putExtra("data", meetingTitleEditText.getText().toString());
-        intent.putExtras(bundle);
+        Intent intent = new Intent(this, AddMeetingActivity.class);
+        intent.putExtra("data", "Hello from MainActivity!");
+        //intent.putExtras(bundle);
 
         //Here we launch the activity, which will start LoginActivity and
         //expect results from it.
@@ -99,88 +89,13 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener ButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            startLoginActivity();
 
-            Button clickedButton = (Button) v;
-            Meeting meeting = null;
-
-            //Summary button event
-            if(clickedButton.equals(summaryButton)) {
-                startLoginActivity();
-            }
-
-            //Submit button event
-            if (clickedButton.equals(submitButton)) {
-
-                title = "";
-                location = "";
-                participants = "";
-                dateTime = "";
-
-                if (meetingTitleEditText.getText().length() != 0) {
-                    title = meetingTitleEditText.getText().toString();
-                } else {
-                    meetingTitleEditText.setBackgroundColor(Color.rgb(255, 0, 0));
-                }
-
-                if (meetingLocationEditText.getText().length() != 0) {
-                    location = meetingLocationEditText.getText().toString();
-                } else {
-                    meetingLocationEditText.setBackgroundColor(Color.rgb(255, 0, 0));
-                }
-
-                if (meetingParticipantsEditText.getText().length() != 0) {
-                    participants = meetingParticipantsEditText.getText().toString();
-                } else {
-                    meetingParticipantsEditText.setBackgroundColor(Color.rgb(255, 0, 0));
-                }
-
-                /*
-                if (meetingDateTimeEditText.getText().length() != 0) {
-                    dateTime = meetingDateTime.getText().toString();
-                } else {
-                    meetingDateTimeEditText.setBackgroundColor(Color.rgb(255, 0, 0));
-                }
-*/
-                if (!title.isEmpty() && !location.isEmpty() && !participants.isEmpty()) {
-                    MeetingDB.addNewMeetingToDatabase(title, location, participants);
-                    //meeting = new Meeting(title,location, participants, MeetingDB.getCurrentDateTime());
-                    //Log.d("MEETING", "Main " + MeetingDB.getMeetingsList().toString());
-
-                    meetingTitleEditText.setText("");
-                    meetingLocationEditText.setText("");
-                    meetingParticipantsEditText.setText("");
-                    meetingDateTimeEditText.setText("");
-
-                }
-            }
 
         }
-    };
-
-    private View.OnKeyListener KeyListener = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-            EditText inputField = (EditText) v;
-            if(inputField.equals(meetingTitleEditText)) {
-                meetingTitleEditText.setBackgroundColor(0);
-            }
-
-            if(inputField.equals(meetingLocationEditText)) {
-                meetingLocationEditText.setBackgroundColor(0);
-            }
-
-            if(inputField.equals(meetingParticipantsEditText)) {
-                meetingParticipantsEditText.setBackgroundColor(0);
-            }
-
-            //Toast.makeText(MainActivity.this, inputField.getResources().getResourceEntryName(inputField.getId()), Toast.LENGTH_LONG).show();
-
-
-            return false;
-        }
-
 
     };
+
 
 
 }

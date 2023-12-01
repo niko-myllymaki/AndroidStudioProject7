@@ -14,21 +14,30 @@ public class MeetingDB {
 
     static {
         meetingsList.add(new Meeting("TITLE", "LOCAL", "BOB", getCurrentDateTime()));
+        meetingsList.add(new Meeting("Test Title", "Test Location", "TestName", "19/10/2023 15:00"));
+        meetingsList.add(new Meeting("Test Title2", "Test Location2", "TestName2", "26/12/2023 19:30"));
     }
 
     public static List<Meeting> getMeetingsList() {
         return meetingsList;
     }
 
-    public static void addNewMeetingToDatabase(String title, String location, String participants) {
-        meetingsList.add(new Meeting(title, location, participants, getCurrentDateTime()));
+    public static StringBuilder getMeetingsStringBuilder() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(Meeting meeting : getMeetingsList()) {
+            stringBuilder.append(meeting).append("\n");
+        }
+
+        return stringBuilder;
+    }
+
+    public static void addNewMeetingToDatabase(String title, String location, String participants, String dateTime) {
+        meetingsList.add(new Meeting(title, location, participants, dateTime));
     }
 
 
-
-
     public static String getCurrentDateTime() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         Date date = new Date();
         return dateFormat.format(date);
     }

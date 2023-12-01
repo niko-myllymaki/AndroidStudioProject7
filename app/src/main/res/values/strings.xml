@@ -11,4 +11,10 @@
     <string name="hint_meetingLocation">Location</string>
     <string name="hint_meetingParticipants">Participant</string>
     <string name="button_inputMeeting">Add Meeting</string>
+    <string name="search_meeting_title">Search Meeting</string>
+    <string name="hint_autoComplete_date">e.g 21/9/2023</string>
+    <string name="tw_search_result_txt">Search Result:</string>
+    <string name="button_back">Back</string>
+    <string name="hint_autoComplete_time">e.g 17:30</string>
+    <string name="hint_autoComplete_participants">Name</string>
 </resources>

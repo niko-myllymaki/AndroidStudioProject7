@@ -1,5 +1,8 @@
 package nm.vamk.assignment7;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Date;
 
 public class Meeting {
@@ -48,9 +51,8 @@ public class Meeting {
         this.dateTime = dateTime;
     }
 
-
     public String toString() {
-        return title + ", " + location + ", [" + participants + "], " + dateTime;
+        return title + ", " + location + ", " + participants + ", " + dateTime;
     }
 
 }

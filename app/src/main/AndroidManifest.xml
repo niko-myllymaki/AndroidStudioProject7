@@ -21,10 +21,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="nm.vamk.assignment7.SummaryActivity"
+            android:name="nm.vamk.assignment7.AddMeetingActivity"
             android:exported="false">
             <intent-filter>
-                <action android:name="mysummary.SummaryActivity" />
+                <action android:name="myAddMeeting.AddMeetingActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="nm.vamk.assignment7.SearchMeetingActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="mySearchMeeting.SearchMeetingActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
