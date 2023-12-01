@@ -44,13 +44,23 @@
         app:layout_constraintTop_toBottomOf="@id/editText_meetingLocation" />
 
     <EditText
-        android:id="@+id/editText_meetingDateTime"
+        android:id="@+id/editText_meetingDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_meetingDateTime"
+        android:hint="@string/hint_meetingDate"
         android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editText_meetingParticipants"
+        android:inputType="none"/>
+
+    <EditText
+        android:id="@+id/editText_meetingTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_meetingTime"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editText_meetingDate"
         android:inputType="none"/>
 
     <Button
@@ -61,7 +71,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="15dp"
         android:backgroundTint="@color/android_green"
-        app:layout_constraintTop_toBottomOf="@id/editText_meetingDateTime"
+        app:layout_constraintTop_toBottomOf="@id/editText_meetingTime"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button

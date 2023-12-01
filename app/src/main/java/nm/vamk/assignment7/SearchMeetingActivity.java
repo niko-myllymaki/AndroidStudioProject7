@@ -21,10 +21,11 @@ public class SearchMeetingActivity extends AppCompatActivity {
 
     TextView searchResult;
     AutoCompleteTextView autoCompleteTextViewDate, autoCompleteTextViewTime, autoCompleteTextViewParticipants;
-    ArrayAdapter<String> dateArrayAdapter, timeArrayAdapter, participantsArrayAdapter;
+    ArrayAdapter<Meeting> dateArrayAdapter, timeArrayAdapter, participantsArrayAdapter;
     Button backButton;
 
-    String meetingData;
+    //String meetingData;
+    ArrayList<Meeting> meetingArrayList;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -48,22 +49,30 @@ public class SearchMeetingActivity extends AppCompatActivity {
         autoCompleteTextViewTime.setThreshold(1);
         autoCompleteTextViewParticipants.setThreshold(1);
 
-        meetingData = "";
+        //meetingData = "";
 
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("meeting_data");
+        meetingArrayList = (ArrayList<Meeting>) args.getSerializable("ARRAYLIST");
+
+        Log.d("MEETINGDATA",  meetingArrayList.toString());
+
+        /*
         //Here we access the incoming Intenet object
         Bundle extras = getIntent().getExtras();
         if (extras != null)
             meetingData = extras.getString("meeting_data");
-
+*/
         //Toast.makeText(this, meetingData, Toast.LENGTH_LONG).show();
-        Log.d("MEETINGDATA", "Before conversion: " + meetingData);
+        //Log.d("MEETINGDATA", "Before conversion: " + meetingData);
 
-        Log.d("MEETINGDATA", convertToArrayList().toString());
+        //Log.d("MEETINGDATA", convertToArrayList().toString());
 
         updateArrayAdapter();
     }
 
 
+    /*
     public List<String> convertToArrayList() {
         List<String> convertedMeetingList = new ArrayList<>();
 
@@ -75,13 +84,13 @@ public class SearchMeetingActivity extends AppCompatActivity {
 
         return convertedMeetingList;
     }
-
+*/
 
     public void updateArrayAdapter() {
         //Here we define an array adapters with a style and a content list
-        dateArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, convertToArrayList());
-        timeArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, convertToArrayList());
-        participantsArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, convertToArrayList());
+        dateArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, meetingArrayList);
+        timeArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, meetingArrayList);
+        participantsArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, meetingArrayList);
 
         //Here we set the array adapter for the AutoCompleteTextView
         autoCompleteTextViewDate.setAdapter(dateArrayAdapter);

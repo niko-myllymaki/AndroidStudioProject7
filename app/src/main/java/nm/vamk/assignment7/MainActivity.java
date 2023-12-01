@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         summaryInfo = findViewById(R.id.tw_summary_info);
-        //summaryInfo.setText(data);
+        summaryInfo.setText(MeetingDB.getMeetingsStringBuilder());
+        //convertToSummaryFormat();
 
 
         //Here we define ActivityResultLauncher using registerForActivityResult() method.
@@ -52,34 +54,39 @@ public class MainActivity extends AppCompatActivity {
                         //This method processes data sent back from the activity
                         if (result.getResultCode() == RESULT_OK) {
                             Toast.makeText(MainActivity.this, "Returned from AddMeetingActivity!", Toast.LENGTH_LONG).show();
+                            summaryInfo.setText(MeetingDB.getMeetingsStringBuilder());
                             //usernameTextView.setVisibility(View.VISIBLE);
                             //usernameTextView.setText(result.getData().getStringExtra("user_name") + " " + result.getData().getStringExtra("current_time"));
-                            summaryInfo.setText(result.getData().getStringExtra("meeting_data"));
+                            //summaryInfo.setText(result.getData().getStringExtra("meeting_data"));
 
                         }
                     }
                 });
     }
 
-    //This method starts the activity.
-    private void startLoginActivity() {
-        Bundle bundle = new Bundle();
-        //StringBuilder stringBuilder = new StringBuilder();
-        // passing the data into the bundle
-        //Meeting meeting = new Meeting("testTitle", "testLocal", "testNames", MeetingDB.getCurrentDateTime().toString());
-        /*
-        List<Meeting> listOfMeetings = MeetingDB.getMeetingsList();
+    /*
+    private void convertToSummaryFormat() {
+
+        StringBuilder stringBuilder = new StringBuilder();
         for(Meeting meeting : MeetingDB.getMeetingsList()) {
             stringBuilder.append(meeting).append("\n");
         }
-        bundle.putString("meetingsList", stringBuilder.toString());
-*/
-        //Here we define intent to start LoginActivity and pass some data to it.
-        //Date date = new Date();
-        //Log.d("DATE", new Date().toString());
+
+        summaryInfo.setText(stringBuilder);
+    }
+     */
+
+    //This method starts the activity.
+    private void startLoginActivity() {
+        Bundle bundle = new Bundle();
+
+
         Intent intent = new Intent(this, AddMeetingActivity.class);
-        intent.putExtra("data", "Hello from MainActivity!");
-        //intent.putExtras(bundle);
+        //intent.putExtra("data", "Hello from MainActivity!");
+
+        Bundle args = new Bundle();
+        args.putSerializable("ARRAYLIST", (Serializable) MeetingDB.getMeetingsList());
+        intent.putExtra("meeting_data", args);
 
         //Here we launch the activity, which will start LoginActivity and
         //expect results from it.
@@ -90,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             startLoginActivity();
-
-
         }
 
     };

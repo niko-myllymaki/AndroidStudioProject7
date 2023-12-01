@@ -31,13 +31,14 @@ import java.util.List;
 public class AddMeetingActivity extends AppCompatActivity {
 
 
-    EditText meetingTitleEditText, meetingLocationEditText, meetingParticipantsEditText, meetingDateTimeEditText;
+    EditText meetingTitleEditText, meetingLocationEditText, meetingParticipantsEditText, meetingDateEditText, meetingTimeEditText;
 
     Button submitButton, summaryButton, searchButton;
 
-    String title, location, participants, dateTime;
+    String title, location, participants, date, time;
 
     DatePickerDialog datePickerDialog;
+    ArrayList<Meeting> meetingArrayList;
 
     ActivityResultLauncher<Intent> activityResultLauncher;
 
@@ -49,9 +50,11 @@ public class AddMeetingActivity extends AppCompatActivity {
         meetingTitleEditText = findViewById(R.id.editText_meetingTitle);
         meetingLocationEditText = findViewById(R.id.editText_meetingLocation);
         meetingParticipantsEditText = findViewById(R.id.editText_meetingParticipants);
-        meetingDateTimeEditText = findViewById(R.id.editText_meetingDateTime);
+        meetingDateEditText = findViewById(R.id.editText_meetingDate);
+        meetingTimeEditText = findViewById(R.id.editText_meetingDate);
 
-        meetingDateTimeEditText.setOnTouchListener(onTouchListener);
+        meetingDateEditText.setOnTouchListener(onTouchListener);
+        meetingTimeEditText.setOnTouchListener(onTouchListener);
 
         submitButton = findViewById(R.id.button_submit);
         submitButton.setOnClickListener(ButtonClickListener);
@@ -69,21 +72,26 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         String data = "";
 
-
         /*
         Bundle bundle = getIntent().getExtras();
         data = bundle.getString("meetingsList", "Default");
         */
 
+        Intent intent = getIntent();
+        Bundle args = intent.getBundleExtra("meeting_data");
+        meetingArrayList = (ArrayList<Meeting>) args.getSerializable("ARRAYLIST");
+
+        //Log.d("MEETINGDATA",  meetingArrayList.toString());
+
+        /*
         //Here we access the incoming Intenet object
         Bundle extras = getIntent().getExtras();
 
         if (extras != null)
             data = extras.getString("data");
 
-
         Toast.makeText(this, data, Toast.LENGTH_LONG).show();
-
+*/
         //summaryInfo = findViewById(R.id.tw_summary_info);
         //Here we set the hint value of the edit text to the data
         //sent by calling activity
@@ -103,20 +111,14 @@ public class AddMeetingActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
 */
         }
-
-
-
 
     private View.OnClickListener ButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
             Button clickedButton = (Button) v;
-            Meeting meeting = null;
 
             //Summary button event
             if (clickedButton.equals(summaryButton)) {
@@ -129,7 +131,10 @@ public class AddMeetingActivity extends AppCompatActivity {
 
             if (clickedButton.equals(searchButton)) {
                 Intent intent = new Intent(AddMeetingActivity.this, SearchMeetingActivity.class);
-                intent.putExtra("meeting_data", MeetingDB.getMeetingsStringBuilder().toString());
+                Bundle args = new Bundle();
+                args.putSerializable("ARRAYLIST", (Serializable) MeetingDB.getMeetingsList());
+                intent.putExtra("meeting_data", args);
+
                 startActivity(intent);
             }
 
@@ -139,7 +144,8 @@ public class AddMeetingActivity extends AppCompatActivity {
                 title = "";
                 location = "";
                 participants = "";
-                dateTime = "";
+                date = "";
+                time = "";
 
                 if (meetingTitleEditText.getText().length() != 0) {
                     title = meetingTitleEditText.getText().toString();
@@ -159,21 +165,28 @@ public class AddMeetingActivity extends AppCompatActivity {
                     meetingParticipantsEditText.setBackgroundColor(Color.rgb(255, 0, 0));
                 }
 
-                if (meetingDateTimeEditText.getText().length() != 0) {
-                    dateTime = meetingDateTimeEditText.getText().toString();
+                if (meetingDateEditText.getText().length() != 0) {
+                    date = meetingDateEditText.getText().toString();
                 } else {
-                    meetingDateTimeEditText.setBackgroundColor(Color.rgb(255, 0, 0));
+                    meetingDateEditText.setBackgroundColor(Color.rgb(255, 0, 0));
+                }
+
+                if (meetingTimeEditText.getText().length() != 0) {
+                    time = meetingTimeEditText.getText().toString();
+                } else {
+                    meetingTimeEditText.setBackgroundColor(Color.rgb(255, 0, 0));
                 }
 
                 if (!title.isEmpty() && !location.isEmpty() && !participants.isEmpty()) {
-                    MeetingDB.addNewMeetingToDatabase(title, location, participants, dateTime);
+                    MeetingDB.addNewMeetingToDatabase(title, location, participants, date, time);
                     //meeting = new Meeting(title,location, participants, MeetingDB.getCurrentDateTime());
-                    //Log.d("MEETING", "Main " + MeetingDB.getMeetingsList().toString());
+                    Log.d("MEETINGDATA", MeetingDB.getMeetingsList().toString());
 
                     meetingTitleEditText.setText("");
                     meetingLocationEditText.setText("");
                     meetingParticipantsEditText.setText("");
-                    meetingDateTimeEditText.setText("");
+                    meetingDateEditText.setText("");
+                    meetingTimeEditText.setText("");
 
                 }
             }
@@ -209,6 +222,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
+            //set time picer dialog here and check which one is pressed.
             openDatePickerDialog();
 
             return false;
@@ -220,7 +234,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                meetingDateTimeEditText.setText(String.valueOf(dayOfMonth) + "/" + String.valueOf(month+1) + "/" + String.valueOf(year));
+                meetingDateEditText.setText(String.valueOf(dayOfMonth) + "/" + String.valueOf(month+1) + "/" + String.valueOf(year));
                 openTimePickerDialog();
                 //Toast.makeText(AddMeetingActivity.this, String.valueOf(dayOfMonth) + " " + String.valueOf(month) + " " + String.valueOf(year),Toast.LENGTH_LONG).show();
 
@@ -242,8 +256,8 @@ public class AddMeetingActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                EditText meetingDateTimeEditTextTemp = meetingDateTimeEditText;
-                meetingDateTimeEditText.setText(meetingDateTimeEditTextTemp.getText().toString() + " " + String.valueOf(hourOfDay)+":"+String.valueOf(minute));
+                EditText meetingDateTimeEditTextTemp = meetingTimeEditText;
+                meetingTimeEditText.setText(meetingDateTimeEditTextTemp.getText().toString() + " " + String.valueOf(hourOfDay)+":"+String.valueOf(minute));
                 //meetingDateTimeEditTextTemp.setText("");
 
             }

@@ -1,12 +1,13 @@
 package nm.vamk.assignment7;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MeetingDB {
+public class MeetingDB implements Serializable {
 
     static List<Meeting> meetingsList = new ArrayList<>();
 
@@ -31,8 +32,8 @@ public class MeetingDB {
         return stringBuilder;
     }
 
-    public static void addNewMeetingToDatabase(String title, String location, String participants, String dateTime) {
-        meetingsList.add(new Meeting(title, location, participants, dateTime));
+    public static void addNewMeetingToDatabase(String title, String location, String participants, String date, String time) {
+        meetingsList.add(new Meeting(title, location, participants, date + " " + time));
     }
 
 
