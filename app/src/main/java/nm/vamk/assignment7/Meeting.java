@@ -4,15 +4,16 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Meeting implements Serializable {
 
     private String title;
     private String location;
-    private String participants;
+    private List<String> participants;
     private String dateTime;
 
-    public Meeting(String title, String location, String participants , String dateTime) {
+    public Meeting(String title, String location, List<String> participants , String dateTime) {
         this.title = title;
         this.location = location;
         this.participants = participants;
@@ -27,7 +28,7 @@ public class Meeting implements Serializable {
         return location;
     }
 
-    public String getParticipants() {
+    public List<String> getParticipants() {
         return participants;
     }
 
@@ -43,7 +44,7 @@ public class Meeting implements Serializable {
         this.location = location;
     }
 
-    public void setParticipants(String participants) {
+    public void setParticipants(List<String> participants) {
         this.participants = participants;
     }
 

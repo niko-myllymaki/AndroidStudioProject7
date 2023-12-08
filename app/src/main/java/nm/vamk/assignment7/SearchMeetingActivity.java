@@ -52,8 +52,8 @@ public class SearchMeetingActivity extends AppCompatActivity {
         //meetingData = "";
 
         Intent intent = getIntent();
-        Bundle args = intent.getBundleExtra("meeting_data");
-        meetingArrayList = (ArrayList<Meeting>) args.getSerializable("ARRAYLIST");
+        Bundle bundle = intent.getBundleExtra("meeting_data");
+        meetingArrayList = (ArrayList<Meeting>) bundle.getSerializable("ARRAYLIST");
 
         Log.d("MEETINGDATA",  meetingArrayList.toString());
 
